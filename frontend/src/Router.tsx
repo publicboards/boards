@@ -4,6 +4,7 @@ import HomePage from '@/components/pages/homepage'
 import SecondPage from '@/components/pages/secondpage'
 import ProfilePage from './components/pages/profilepage'
 import NotFoundPage from './pages/404';
+import TodoPage from './components/pages/todo';
 
 // Define the routes table
 // This is a simple array of route definitions
@@ -50,9 +51,15 @@ function AppRouter() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/second" element={<SecondPage />} />
+        <Route path="/" element={<TodoPage />} />
         <Route path="/@/:uuid" element={<ProfilePage />} />
+        <Route path="/_/:uuid" element={<TodoPage />} />
+        <Route path="/messages" element={<TodoPage />} />
+        <Route path="/messages/:uuid" element={<TodoPage />} />
+        <Route path="/privacy" element={<TodoPage />} />
+        <Route path="/terms" element={<TodoPage />} />
+        <Route path="/contact" element={<TodoPage />} />
+        <Route path="/about" element={<TodoPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
