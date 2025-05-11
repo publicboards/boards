@@ -1,5 +1,5 @@
-import '@/Global.css'
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import '@/App.css'
+import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
 import HomePage from '@/components/pages/homepage'
 import SecondPage from '@/components/pages/secondpage'
 import ProfilePage from './components/pages/profilepage'
@@ -47,13 +47,14 @@ export const routesTable: any[] = [
 // const href = window.location.href
 
 
-function AppRouter() {
+export default function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<TodoPage />} />
         <Route path="/@/:uuid" element={<ProfilePage />} />
         <Route path="/_/:uuid" element={<TodoPage />} />
+        <Route path="/settings" element={<TodoPage />} />
         <Route path="/messages" element={<TodoPage />} />
         <Route path="/messages/:uuid" element={<TodoPage />} />
         <Route path="/privacy" element={<TodoPage />} />
@@ -62,8 +63,6 @@ function AppRouter() {
         <Route path="/about" element={<TodoPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
-
-export default AppRouter

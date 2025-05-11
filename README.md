@@ -38,6 +38,6 @@ docker compose down
 - `cmd/` - Command-line for boards.
 - `frontend/` - Vite + React frontend prepared for Tailwindcss and Shadcn components.
 - - `frontend.go` - The AddRoutes function contains mux router configuration for endpoints that serve index.html. This needs to be updated whenever new frontend routes need to be served by Go.
-- - `src/Router.tsx` - The html side of the SPA routing solution. This needs to be updated whenever new frontend routes are added.
+- - `src/App.tsx` - The html side of the SPA routing solution. This needs to be updated whenever new frontend routes are added.
 - `pkg/pgxutils` - Postgres tools.
 - `routes/` - Backend routes.
