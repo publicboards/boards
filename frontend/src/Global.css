@@ -149,3 +149,12 @@
   }
 
 }
+
+code {
+  border: 1px solid var(--color-border);
+  padding: 2px 4px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-muted);
+  color: var(--color-muted-foreground);
+  font-family: monospace;
+}

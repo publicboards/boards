@@ -1,6 +1,9 @@
 import '@/Global.css'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from '@/components/pages/homepage'
 import SecondPage from '@/components/pages/secondpage'
+import ProfilePage from './components/pages/profilepage'
+import NotFoundPage from './pages/404';
 
 // Define the routes table
 // This is a simple array of route definitions
@@ -14,11 +17,12 @@ export const routesTable: any[] = [
   {
     route: '/second',
     component: SecondPage
-  }
+  },
+  {
+    route: '/@/:id',
+    component: ProfilePage
+  },
 ]
-
-// Determine the path based on the environment mode
-let path = window.location.pathname
 
 // // Get the URL search params. Example: ?id=123
 // const searchParams = new URLSearchParams(window.location.search)
@@ -42,19 +46,17 @@ let path = window.location.pathname
 // const href = window.location.href
 
 
-function Router() {
-  if (import.meta.env.MODE === 'development') {
-    console.log('Running in development mode');
-  }
-  
-  // Find the route definition matching the current path
-  const route = routesTable.find((r) => r.route === path)
-  if (route && route.component) {
-    const Component = route.component
-    return (
-        <Component />
-    )
-  }
+function AppRouter() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/second" element={<SecondPage />} />
+        <Route path="/@/:id" element={<ProfilePage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default Router
+export default AppRouter
