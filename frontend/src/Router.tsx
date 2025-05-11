@@ -52,7 +52,7 @@ function AppRouter() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/second" element={<SecondPage />} />
-        <Route path="/@/:id" element={<ProfilePage />} />
+        <Route path="/@/:uuid" element={<ProfilePage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
