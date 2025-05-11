@@ -1,0 +1,19 @@
+services:
+  yugabyte:
+    image: "yugabytedb/yugabyte:2.25.1.0-b381"
+    ports:
+      - "7000:7000"
+      - "9000:9000"
+      - "15433:15433"
+      - "5433:5433"
+      - "9042:9042"
+    command: bin/yugabyted start --background=false
+  boards:
+    build: .
+    environment:
+      DATABASE_URI: "host=yugabyte port=5433 user=yugabyte password= dbname=yugabyte sslmode=disable"
+    ports:
+      - "8080:8080"
+    command: server --auto-init-postgres
+    depends_on:
+      - yugabyte
