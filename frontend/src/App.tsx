@@ -52,11 +52,11 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<TodoPage />} />
-        <Route path="/@/:uuid" element={<ProfilePage />} />
-        <Route path="/_/:uuid" element={<TodoPage />} />
+        <Route path="/@/:username" element={<ProfilePage />} />
+        <Route path="/_/:boardname" element={<TodoPage />} />
         <Route path="/settings" element={<TodoPage />} />
         <Route path="/messages" element={<TodoPage />} />
-        <Route path="/messages/:uuid" element={<TodoPage />} />
+        <Route path="/messages/:groupid" element={<TodoPage />} />
         <Route path="/privacy" element={<TodoPage />} />
         <Route path="/terms" element={<TodoPage />} />
         <Route path="/contact" element={<TodoPage />} />

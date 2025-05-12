@@ -64,9 +64,16 @@ func serveIndexHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func AddRoutes(r *mux.Router) (*mux.Router, error) {
-	// Serve the index.html file for many routes
-	// The reason for this is beceause some routes might need regexes
+	// Server production ready UI paths.
 	r.HandleFunc("/", serveIndexHandler).Methods("GET")
+	r.HandleFunc("/@/{username}", serveIndexHandler).Methods("GET")
+	r.HandleFunc("/_/{boardname}", serveIndexHandler).Methods("GET")
+
+	// Catch all other paths and serve with a 404 status.
+	r.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusNotFound) // Set 404 status in the headers
+		serveIndexHandler(w, r)
+	})
 
 	// list all files in views.EmbeddedFS
 	err := fs.WalkDir(Content, ".", func(path string, d fs.DirEntry, err error) error {
