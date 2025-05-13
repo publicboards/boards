@@ -11,6 +11,7 @@ import (
 func AddRoutes(r *mux.Router) (*mux.Router, error) {
 	api := r.PathPrefix("/api/v1").Subrouter()
 	api.HandleFunc("/time", timeHandler).Methods("GET")
+	api.HandleFunc("/auth/login", LoginHandler).Methods("POST")
 
 	return r, nil
 }

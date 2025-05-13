@@ -5,6 +5,7 @@ import SecondPage from '@/components/pages/secondpage'
 import ProfilePage from './components/pages/profilepage'
 import NotFoundPage from './pages/404';
 import TodoPage from './components/pages/todo';
+import BoardPage from './components/pages/boardpage';
 
 // Define the routes table
 // This is a simple array of route definitions
@@ -53,7 +54,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<TodoPage />} />
         <Route path="/@/:username" element={<ProfilePage />} />
-        <Route path="/_/:boardname" element={<TodoPage />} />
+        <Route path="/_/:boardname" element={<BoardPage />} />
         <Route path="/settings" element={<TodoPage />} />
         <Route path="/messages" element={<TodoPage />} />
         <Route path="/messages/:groupid" element={<TodoPage />} />
