@@ -12,20 +12,25 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate();
 
   const validateUsernameOrEmail = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+$/; // Same regex as in signup)
-    if (usernameOrEmail.trim() === '') {
-      setUsernameOrEmailError('Username or Email is required.');
-      return false;
-    } else if (!emailRegex.test(usernameOrEmail) && usernameOrEmail.includes('@')) {
-      setUsernameOrEmailError('Invalid email format.');
-      return false;
-    } else if (!/^[a-zA-Z0-9][a-zA-Z0-9_-]*$/.test(usernameOrEmail)) {
-      setUsernameOrEmailError('Username may only contain letters, numbers, underscores, and dashes, and cannot start with underscores or dashes.');
-      return false;
+    if (usernameOrEmail.includes('@')) {
+      const emailRegex = /^[^\s@]+@[^\s@]+$/; // Same regex as in signup)
+      if (!emailRegex.test(usernameOrEmail) && usernameOrEmail.includes('@')) {
+        setUsernameOrEmailError('Invalid email format.');
+        return false;
+      }
     } else {
-      setUsernameOrEmailError('');
-      return true;
+      if (usernameOrEmail.length > 25) {
+        setUsernameOrEmailError('Username may not exceed 25 characters.');
+        return false;
+      }
+      if (!/^[a-zA-Z0-9][a-zA-Z0-9_-]*$/.test(usernameOrEmail)) {
+        setUsernameOrEmailError('Username may only contain letters, numbers, underscores, and dashes, and cannot start with underscores or dashes.');
+        return false;
+      }
     }
+    
+    setUsernameOrEmailError('');
+    return true;
   };
 
   const validatePassword = () => {
