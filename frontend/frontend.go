@@ -63,17 +63,26 @@ func serveIndexHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeContent(w, r, "index.html", stat.ModTime(), bytes.NewReader(content))
 }
 
-func AddRoutes(r *mux.Router) (*mux.Router, error) {
-	// Server production ready UI paths.
-	r.HandleFunc("/", serveIndexHandler).Methods("GET")
-	r.HandleFunc("/@/{username}", serveIndexHandler).Methods("GET")
-	r.HandleFunc("/_/{boardname}", serveIndexHandler).Methods("GET")
-
-	// Catch all other paths and serve with a 404 status.
+// Updates the 404 handler to serve the index.html.
+// This must be set after all other routes.
+// If this is done before any routes are registered, the 404 handler will be called unexectedly.
+func AddRoute404(r *mux.Router) *mux.Router {
 	r.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound) // Set 404 status in the headers
 		serveIndexHandler(w, r)
 	})
+	return r
+}
+
+// Adds frontend routes to the router.
+func AddRoutes(r *mux.Router) (*mux.Router, error) {
+	// Server production ready UI paths
+	// When a new route is added to App.tsx, it should be added here as well
+	r.HandleFunc("/", serveIndexHandler).Methods("GET")
+	r.HandleFunc("/@/{username}", serveIndexHandler).Methods("GET")
+	r.HandleFunc("/_/{boardname}", serveIndexHandler).Methods("GET")
+	r.HandleFunc("/auth/login", serveIndexHandler).Methods("GET")
+	r.HandleFunc("/auth/signup", serveIndexHandler).Methods("GET")
 
 	// list all files in views.EmbeddedFS
 	err := fs.WalkDir(Content, ".", func(path string, d fs.DirEntry, err error) error {
@@ -85,6 +94,8 @@ func AddRoutes(r *mux.Router) (*mux.Router, error) {
 			if path == "index.html" {
 				return nil
 			}
+
+			log.Printf("Serving %s", "/"+path)
 
 			r.HandleFunc("/"+path, func(w http.ResponseWriter, r *http.Request) {
 				file, _ := Content.Open(path)
@@ -104,5 +115,6 @@ func AddRoutes(r *mux.Router) (*mux.Router, error) {
 	if err != nil {
 		log.Fatalf("failed to walk embedded filesystem: %v", err)
 	}
+
 	return r, err
 }

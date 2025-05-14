@@ -12,4 +12,16 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    proxy: {
+      // this is a proxy for the backend during development
+      // it will forward requests from /api to the backend server
+      '/api': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        // strip the /api prefix
+        // rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
+  },
 })

@@ -34,6 +34,29 @@ To clean up the docker compose containers.
 docker compose down
 ```
 
+Accessing the development database via docker compose.
+```shell
+docker exec -it boards-yugabyte-1 ysqlsh -h yugabyte
+```
+
+### Bare Metal Cliff Notes
+```shell
+docker run -d --name yugabyte --hostname yugabyte --network boards -h yugabyte -p7000:7000 -p9000:9000 -p15433:15433 -p5433:5433 -p9042:9042 yugabytedb/yugabyte:2.25.1.0-b381 bin/yugabyted start --background=false
+
+DATABASE_URI="host=localhost port=5433 user=yugabyte password= dbname=yugabyte sslmode=disable" go run ./cmd server --auto-init-postgres
+cd frontend && npm run dev
+
+docker exec -it yugabyte ysqlsh -h yugabyte -d yugabyte
+\l
+\dt
+\c database_name
+
+docker kill yugabyte
+
+docker rm yugabyte
+```
+
+
 ## Directory Structure
 - `cmd/` - Command-line for boards.
 - `frontend/` - Vite + React frontend prepared for Tailwindcss and Shadcn components.

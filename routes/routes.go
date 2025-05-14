@@ -9,9 +9,10 @@ import (
 )
 
 func AddRoutes(r *mux.Router) (*mux.Router, error) {
-	api := r.PathPrefix("/api/v1").Subrouter()
-	api.HandleFunc("/time", timeHandler).Methods("GET")
-	api.HandleFunc("/auth/login", LoginHandler).Methods("POST")
+	r.HandleFunc("/api/v1/time", timeHandler).Methods("GET")
+	r.HandleFunc("/api/v1/auth/login", LoginHandler).Methods("POST")
+	r.HandleFunc("/api/v1/auth/signup", SignupHandler).Methods("POST")
+	r.HandleFunc("/api/v1/auth/status", StatusHandler).Methods("GET")
 
 	return r, nil
 }

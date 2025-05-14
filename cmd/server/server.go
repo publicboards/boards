@@ -37,13 +37,16 @@ func main(_ context.Context, cmd *cli.Command) error {
 
 	r := mux.NewRouter().StrictSlash(true)
 
+	if _, err := routes.AddRoutes(r); err != nil {
+		log.Fatalf("Failed to add routes: %v", err)
+	}
+
 	if _, err := frontend.AddRoutes(r); err != nil {
 		log.Fatalf("Failed to add frontend routes: %v", err)
 	}
 
-	if _, err := routes.AddRoutes(r); err != nil {
-		log.Fatalf("Failed to add routes: %v", err)
-	}
+	// TODO: This doesn't work yet. It results in a 404 error for all routes
+	// frontend.AddRoute404(r)
 
 	pgxutils.AutoInitializeSchema = cmd.Bool("auto-init-postgres")
 

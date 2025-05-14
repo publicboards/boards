@@ -19,7 +19,7 @@ export default function BoardPage() {
                                 author={`User${i + 1}`}
                                 date={new Date().toLocaleDateString()}
                                 imageUrl={i % 2 === 0 ? "/public/vite.svg" : undefined}
-                                isHighlighted={i === 0}
+                                isUpvoted={i === 0}
                                 isDownvoted={i === 1}
                             />
                         ))}

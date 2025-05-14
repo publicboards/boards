@@ -2,10 +2,12 @@ import '@/App.css'
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import HomePage from '@/components/pages/homepage'
 import SecondPage from '@/components/pages/secondpage'
-import ProfilePage from './components/pages/profilepage'
-import NotFoundPage from './pages/404';
-import TodoPage from './components/pages/todo';
-import BoardPage from './components/pages/boardpage';
+import ProfilePage from '@/components/pages/profilepage'
+import NotFoundPage from '@/components/pages/404';
+import TodoPage from '@/components/pages/todo';
+import BoardPage from '@/components/pages/boardpage';
+import LoginPage from '@/components/pages/loginpage';
+import SignupPage from '@/components/pages/signuppage';
 
 // Define the routes table
 // This is a simple array of route definitions
@@ -62,6 +64,8 @@ export default function App() {
         <Route path="/terms" element={<TodoPage />} />
         <Route path="/contact" element={<TodoPage />} />
         <Route path="/about" element={<TodoPage />} />
+        <Route path="/auth/login" element={<LoginPage />} />
+        <Route path="/auth/signup" element={<SignupPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

@@ -7,7 +7,7 @@ interface PostEntryProps {
   author: string;
   date: string;
   imageUrl?: string;
-  isHighlighted?: boolean;
+  isUpvoted?: boolean;
   isDownvoted?: boolean;
 }
 
@@ -18,17 +18,17 @@ export function PostEntry({
   author,
   date,
   imageUrl,
-  isHighlighted = false,
+  isUpvoted = false,
   isDownvoted = false,
 }: PostEntryProps) {
   return (
     <li
       className={`p-4 bg-white dark:bg-gray-700 rounded shadow-md flex space-x-4 ${
-        isHighlighted ? "border-l-4 border-green-500" : ""
+        isUpvoted ? "border-l-4 border-green-500" : ""
       } ${isDownvoted ? "border-l-4 border-red-500" : ""}`}
     >
       <div className="flex flex-col items-center space-y-2">
-        <button className={`text-gray-500 hover:text-blue-500 ${isHighlighted ? "text-blue-500" : ""}`}>
+        <button className={`text-gray-500 hover:text-green-500 ${isUpvoted ? "text-green-500" : ""}`}>
           <ChevronUp className="w-6 h-6" />
         </button>
         <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">{votes}</span>
