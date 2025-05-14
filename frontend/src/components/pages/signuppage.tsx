@@ -22,10 +22,13 @@ const SignupPage: React.FC = () => {
   const validateUsername = () => {
     if (username.trim() === '') {
       setUsernameError('Username is required.');
+      return false;
     } else if (username.length > 25) {
       setUsernameError('Username may not exceed 25 characters.');
+      return false;
     } else if (!/^[a-zA-Z0-9][a-zA-Z0-9_-]*$/.test(username)) {
       setUsernameError('Username may only contain letters, numbers, underscores, and dashes, and cannot start with underscores or dashes.');
+      return false;
     } else {
       setUsernameError('');
     }
@@ -35,8 +38,10 @@ const SignupPage: React.FC = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+$/;
     if (email.trim() === '') {
       setEmailError('Email is required.');
+      return false;
     } else if (!emailRegex.test(email)) {
       setEmailError('Invalid email format.');
+      return false;
     } else {
       setEmailError('');
     }
@@ -45,8 +50,10 @@ const SignupPage: React.FC = () => {
   const validatePassword = () => {
     if (password.trim() === '') {
       setPasswordError('Password is required.');
+      return false;
     } else if (password.length < 8) {
       setPasswordError('Password must be 8 or more characters long.');
+      return false;
     } else {
       setPasswordError('');
     }
@@ -55,8 +62,10 @@ const SignupPage: React.FC = () => {
   const validateConfirmPassword = () => {
     if (confirmPassword.trim() === '') {
       setConfirmPasswordError('Password confirmation is required.');
+      return false;
     } else if (confirmPassword !== password) {
       setConfirmPasswordError('Passwords do not match.');
+      return false;
     } else {
       setConfirmPasswordError('');
     }
@@ -65,6 +74,7 @@ const SignupPage: React.FC = () => {
   const validateTerms = () => {
     if (!termsAccepted) {
       setTermsError('You must accept the Terms of Service.');
+      return false;
     } else {
       setTermsError('');
     }
@@ -73,20 +83,23 @@ const SignupPage: React.FC = () => {
   const validatePrivacy = () => {
     if (!privacyAccepted) {
       setPrivacyError('You must accept the Privacy Policy.');
+      return false;
     } else {
       setPrivacyError('');
     }
   };
 
   const handleSignup = async () => {
-    validateUsername();
-    validateEmail();
-    validatePassword();
-    validateConfirmPassword();
-    validateTerms();
-    validatePrivacy();
+    let results = [
+      validateUsername(),
+      validateEmail(),
+      validatePassword(),
+      validateConfirmPassword(),
+      validateTerms(),
+      validatePrivacy(),
+    ]
 
-    if (usernameError || emailError || passwordError || confirmPasswordError || termsError || privacyError) {
+    if (results.some((result) => result === false)) {
       return;
     }
 
@@ -112,6 +125,13 @@ const SignupPage: React.FC = () => {
     }
   };
 
+  const handleKeyUp = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent default form submission behavior
+      handleSignup();
+    }
+  };
+
   return (
     <PrimaryLayout>
       <div className="table w-full h-screen">
@@ -125,6 +145,7 @@ const SignupPage: React.FC = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               onBlur={validateUsername}
+              onKeyUp={handleKeyUp}
               className="w-full p-2 mb-1 border border-gray-300 rounded dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200"
             />
             {usernameError && <p className="text-red-500 mb-4">{usernameError}</p>}
@@ -134,6 +155,7 @@ const SignupPage: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               onBlur={validateEmail}
+              onKeyUp={handleKeyUp}
               className="w-full p-2 mb-1 border border-gray-300 rounded dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200"
             />
             {emailError && <p className="text-red-500 mb-4">{emailError}</p>}
@@ -143,6 +165,7 @@ const SignupPage: React.FC = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               onBlur={validatePassword}
+              onKeyUp={handleKeyUp}
               className="w-full p-2 mb-1 border border-gray-300 rounded dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200"
             />
             {passwordError && <p className="text-red-500 mb-4">{passwordError}</p>}
@@ -152,6 +175,7 @@ const SignupPage: React.FC = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               onBlur={validateConfirmPassword}
+              onKeyUp={handleKeyUp}
               className="w-full p-2 mb-1 border border-gray-300 rounded dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200"
             />
             {confirmPasswordError && <p className="text-red-500 mb-4">{confirmPasswordError}</p>}

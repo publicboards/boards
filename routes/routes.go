@@ -13,6 +13,7 @@ func AddRoutes(r *mux.Router) (*mux.Router, error) {
 	r.HandleFunc("/api/v1/auth/login", LoginHandler).Methods("POST")
 	r.HandleFunc("/api/v1/auth/signup", SignupHandler).Methods("POST")
 	r.HandleFunc("/api/v1/auth/status", StatusHandler).Methods("GET")
+	r.HandleFunc("/api/v1/auth/logout", LogoutHandler).Methods("GET")
 
 	return r, nil
 }

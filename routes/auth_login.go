@@ -52,6 +52,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		Value:    sessionUuid,
 		Expires:  time.Now().Add(24 * time.Hour),
 		HttpOnly: true,
+		Path:     "/",
 	})
 
 	http.SetCookie(w, &http.Cookie{
@@ -59,6 +60,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		Value:    user.ID,
 		Expires:  time.Now().Add(24 * time.Hour),
 		HttpOnly: true,
+		Path:     "/",
 	})
 
 	w.WriteHeader(http.StatusOK)

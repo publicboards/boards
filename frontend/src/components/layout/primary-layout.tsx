@@ -76,9 +76,18 @@ export function PrimaryLayout({ children }: PrimaryLayoutProps) {
     };
 
     const handleLogout = async () => {
-        // Implement logout logic here
-        setUser(null);
-        navigate('/login');
+        try {
+            // Call the logout API using GET method
+            await fetch('/api/v1/auth/logout', {
+                method: 'GET',
+                credentials: 'include', // Ensure cookies are included in the request
+            });
+
+            // Refresh the page to reflect the logout state
+            window.location.reload();
+        } catch (err) {
+            console.error('Error during logout:', err);
+        }
     };
 
     useEffect(() => {
