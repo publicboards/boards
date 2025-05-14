@@ -21,7 +21,7 @@ CREATE INDEX IF NOT EXISTS idx_users_verified ON users(is_verified);
 CREATE INDEX IF NOT EXISTS idx_users_email_username ON users(email, username);
 
 CREATE TABLE IF NOT EXISTS user_sessions (
-    id UUID PRIMARY KEY,
+    id TEXT PRIMARY KEY CHECK (LENGTH(id) = 64),
     user_id UUID REFERENCES users(id),
     created TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     last_access TIMESTAMPTZ NOT NULL DEFAULT NOW(),

@@ -62,7 +62,7 @@ export function PrimaryLayout({ children }: PrimaryLayoutProps) {
             }
         };
         checkLoginStatus();
-    }, []);
+    }, []); // Added an empty dependency array to ensure this runs only once
 
     const toggleSection = (sectionKey: string): void => {
         setSections((prev) => ({

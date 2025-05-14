@@ -109,7 +109,13 @@ const SignupPage: React.FC = () => {
       const response = await fetch('/api/v1/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+          terms_accepted: termsAccepted,
+          privacy_accepted: privacyAccepted,
+        }),
       });
 
       const data = await response.json();

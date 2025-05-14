@@ -22,3 +22,13 @@ func HashWithSalt(salt, s string) string {
 	hasher.Write([]byte(salt + s))
 	return hex.EncodeToString(hasher.Sum(nil))
 }
+
+// GenerateSessionToken generates a random session token of the specified length. It only returns a string.
+func GenerateSessionToken() string {
+	bytes := make([]byte, 64) // 64 bytes for sha512
+	_, err := rand.Read(bytes)
+	if err != nil {
+		panic("failed to generate random bytes for session token")
+	}
+	return hex.EncodeToString(bytes)
+}

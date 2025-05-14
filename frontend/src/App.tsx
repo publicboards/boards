@@ -49,6 +49,7 @@ export const routesTable: any[] = [
 // // Get the URL href. Example: http://localhost:8080/test
 // const href = window.location.href
 
+// <Router location={window.location} navigator={window.history}>
 
 export default function App() {
   return (
@@ -69,5 +70,6 @@ export default function App() {
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
+
   );
 }

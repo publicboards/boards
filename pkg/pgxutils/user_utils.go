@@ -2,7 +2,10 @@ package pgxutils
 
 import (
 	"context"
+	"log"
 	"time"
+
+	"github.com/publicboards/boards/pkg/secutils"
 )
 
 type User struct {
@@ -48,10 +51,17 @@ func FindUserByEmail(email string, user *User) error {
 }
 
 func CreateUserSession(userID, ipAddress string) (string, error) {
-	query := `INSERT INTO user_sessions (id, user_id, created, last_access, is_valid, ip_addresses) VALUES (gen_random_uuid(), $1, NOW(), NOW(), TRUE, ARRAY[$2]) RETURNING id`
-	var sessionID string
-	err := GetPool().QueryRow(context.Background(), query, userID, ipAddress).Scan(&sessionID)
-	return sessionID, err
+	// Generate a session token using secutils.GenerateSessionToken
+	sessionID := secutils.GenerateSessionToken()
+
+	query := `INSERT INTO user_sessions (id, user_id, created, last_access, is_valid, ip_addresses) VALUES ($1, $2, NOW(), NOW(), TRUE, ARRAY[$3])`
+	_, err := GetPool().Exec(context.Background(), query, sessionID, userID, ipAddress)
+	if err != nil {
+		log.Printf("Error creating user session: %v", err)
+		return "", err
+	}
+
+	return sessionID, nil
 }
 
 func ValidateUserSession(sessionID, userID string) (*User, error) {
