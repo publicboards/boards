@@ -53,6 +53,7 @@ func FindUserByEmail(email string, user *User) error {
 func CreateUserSession(userID, ipAddress string) (string, error) {
 	// Generate a session token using secutils.GenerateSessionToken
 	sessionID := secutils.GenerateSessionToken()
+	log.Print("Session ID: ", sessionID)
 
 	query := `INSERT INTO user_sessions (id, user_id, created, last_access, is_valid, ip_addresses) VALUES ($1, $2, NOW(), NOW(), TRUE, ARRAY[$3])`
 	_, err := GetPool().Exec(context.Background(), query, sessionID, userID, ipAddress)
